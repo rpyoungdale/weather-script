@@ -19,30 +19,39 @@ import { Card } from "semantic-ui-react";
 //   predictability: 71
 // }
 
-class DayWeatherTile extends React.Component {
-  celsiusConversion = num => {
+const DayWeatherTile = props => {
+  const weekdays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ];
+
+  let celsiusConversion = num => {
     return parseInt(num * 1.8 + 32);
   };
 
-  render() {
-    const { applicable_date, min_temp, max_temp, the_temp } = this.props.day;
-    return (
-      <Card>
-        <Card.Content>
-          <Card.Header>WeekDayName</Card.Header>
-          <Card.Meta>{this.props.day.applicable_date}</Card.Meta>
-          <Card.Description>
-            Current Temp: {this.celsiusConversion(the_temp)}
-            <br />
-            Hi / Low:{" "}
-            {`${this.celsiusConversion(max_temp)} / ${this.celsiusConversion(
-              min_temp
-            )}`}
-          </Card.Description>
-        </Card.Content>
-      </Card>
-    );
-  }
-}
+  const { applicable_date, min_temp, max_temp, the_temp } = props.day;
+
+  return (
+    <Card>
+      <Card.Content>
+        <Card.Header>
+          {weekdays[new Date(applicable_date).getDay()]}
+        </Card.Header>
+        <Card.Meta>{applicable_date}</Card.Meta>
+        <Card.Description>
+          Current Temp: {celsiusConversion(the_temp)}
+          <br />
+          Hi / Low:{" "}
+          {`${celsiusConversion(max_temp)} / ${celsiusConversion(min_temp)}`}
+        </Card.Description>
+      </Card.Content>
+    </Card>
+  );
+};
 
 export default DayWeatherTile;
